@@ -1,0 +1,7 @@
+[project]
+name = "toy-wal"
+version = "0.1.0"
+description = "A Write Ahead Log implementation in pure python"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = []
