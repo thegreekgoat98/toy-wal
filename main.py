@@ -1,9 +1,9 @@
 """
-demo.py — Showcase all WAL features end-to-end.
+main.py — Showcase all WAL features end-to-end. Basically the entry point.
 
 Run this twice to see crash recovery in action:
-    python demo.py          # First run: writes data, simulates crash
-    python demo.py          # Second run: recovers from WAL, state is intact
+    python main.py          # First run: writes data, simulates crash
+    python main.py          # Second run: recovers from WAL, state is intact
 """
 
 import os
