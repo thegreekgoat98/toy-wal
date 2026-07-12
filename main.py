@@ -9,9 +9,9 @@ Run this twice to see crash recovery in action:
 import os
 import sys
 import tempfile
+from toy_wal import Database
 
 sys.path.insert(0, os.path.dirname(__file__))
-from toy_wal import Database
 
 TEMP_DIR = tempfile.gettempdir()   # C:\Users\...\AppData\Local\Temp on Windows
 WAL_PATH = os.path.join(TEMP_DIR, "toywal_demo.log")
