@@ -8,14 +8,13 @@ Run this twice to see crash recovery in action:
 
 import os
 import sys
-import tempfile
 from toy_wal import Database
 
 sys.path.insert(0, os.path.dirname(__file__))
 
-TEMP_DIR = tempfile.gettempdir()   # C:\Users\...\AppData\Local\Temp on Windows
-WAL_PATH = os.path.join(TEMP_DIR, "toywal_demo.log")
-CHECKPOINT_PATH = os.path.join(TEMP_DIR, "toywal_checkpoint.json")
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+WAL_PATH = os.path.join(BASE_DIR, "toywal_demo.log")
+CHECKPOINT_PATH = os.path.join(BASE_DIR, "toywal_checkpoint.json")
 
 
 def separator(title: str):
@@ -24,9 +23,9 @@ def separator(title: str):
     print(f"{'─' * 50}")
 
 
-# ------------------------------------------------------------------ #
-# 1. Normal committed transactions                                     #
-# ------------------------------------------------------------------ #
+# ------------------------------------------------------------------
+# 1. Normal committed transactions
+# ------------------------------------------------------------------
 separator("1. Committed Transactions")
 
 db = Database(wal_path=WAL_PATH, checkpoint_path=CHECKPOINT_PATH)
@@ -35,7 +34,6 @@ with db.begin() as txn:
     txn.set("user:1", "Alice")
     txn.set("user:2", "Bob")
     print(f"  SET user:1=Alice, user:2=Bob  (txn={txn.txn_id})")
-# context manager auto-commits
 
 with db.begin() as txn:
     txn.set("balance:alice", "1000")
@@ -45,9 +43,9 @@ with db.begin() as txn:
 print(f"\n  DB state: {db.dump()}")
 
 
-# ------------------------------------------------------------------ #
-# 2. Abort / rollback                                                  #
-# ------------------------------------------------------------------ #
+# ------------------------------------------------------------------
+# 2. Abort / Rollback
+# ------------------------------------------------------------------
 separator("2. Aborted Transaction (Rollback)")
 
 with db.begin() as txn:
@@ -60,16 +58,16 @@ with db.begin() as txn:
 print(f"\n  balance:alice after abort: {db.get('balance:alice')}")  # should be 1000
 
 
-# ------------------------------------------------------------------ #
-# 3. Checkpoint                                                        #
-# ------------------------------------------------------------------ #
+# ------------------------------------------------------------------
+# 3. Checkpoint
+# ------------------------------------------------------------------
 separator("3. Checkpoint")
 db.checkpoint()
 
 
-# ------------------------------------------------------------------ #
-# 4. Simulate crash mid-transaction                                    #
-# ------------------------------------------------------------------ #
+# ------------------------------------------------------------------
+# 4. Simulate crash mid-transaction
+# ------------------------------------------------------------------
 separator("4. Simulated Crash (incomplete transaction)")
 
 # Start a transaction but DO NOT commit — simulate a crash
@@ -77,13 +75,13 @@ txn = db.begin()
 txn.set("user:3", "Charlie")
 txn.set("balance:charlie", "9999")
 print(f"  SET user:3=Charlie, balance:charlie=9999 (txn={txn.txn_id}) — NOT committed")
-print(f"  >>> Simulating crash... process dies here <<<")
-# No commit. No abort. WAL has the BEGIN + SET records but no COMMIT.
+print(f"  !!! Simulating crash... process dies here !!!")
+# No commit. No abort. WAL has the BEGIN + SET records but no COMMIT
 
 
-# ------------------------------------------------------------------ #
-# 5. Restart and recover                                               #
-# ------------------------------------------------------------------ #
+# ------------------------------------------------------------------
+# 5. Restart and recover
+# ------------------------------------------------------------------
 separator("5. Recovery After Crash")
 
 db2 = Database(wal_path=WAL_PATH, checkpoint_path=CHECKPOINT_PATH)
@@ -95,9 +93,9 @@ print(f"  user:1 = {db2.get('user:1')}         ← should be Alice (committed be
 print(f"  balance:alice = {db2.get('balance:alice')}      ← should be 1000 (committed)")
 
 
-# ------------------------------------------------------------------ #
-# Cleanup                                                              #
-# ------------------------------------------------------------------ #
+# ------------------------------------------------------------------
+# Cleanup
+# ------------------------------------------------------------------
 separator("Done")
 for path in [WAL_PATH, CHECKPOINT_PATH]:
     if os.path.exists(path):
