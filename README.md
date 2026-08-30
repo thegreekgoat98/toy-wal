@@ -2,7 +2,7 @@
 
 A Write-Ahead Log (WAL) built from scratch in pure Python.
 
-This is a learning project. The goal is to understand the mechanism behind crash recovery in databases like PostgreSQL — not by reading about it, but by implementing it.
+This is a learning project. The goal is to understand the mechanism behind crash recovery in databases like PostgreSQL: not by reading about it, but by implementing it.
 
 ---
 
