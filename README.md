@@ -120,7 +120,7 @@ looks like on disk without running the code.
 ---
 
 ## How It Works
-
+![Architecture](extras/architecture.png)
 ### The WAL contract
 
 Every write goes through two steps, always in this order:
