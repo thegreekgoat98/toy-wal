@@ -7,10 +7,9 @@ Run this twice to see crash recovery in action:
 """
 
 import os
-import sys
+# import sys
+# sys.path.insert(0, os.path.dirname(__file__))
 from toy_wal import Database
-
-sys.path.insert(0, os.path.dirname(__file__))
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 WAL_PATH = os.path.join(BASE_DIR, "toywal_demo.log")

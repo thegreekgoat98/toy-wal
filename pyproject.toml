@@ -5,3 +5,6 @@ description = "A Write Ahead Log implementation in pure python"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
