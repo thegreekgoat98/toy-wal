@@ -65,7 +65,7 @@ No external dependencies. Pure Python stdlib only.
 
 ## Extras
 
-The `extras/` folder contains screenshots of the WAL log file (`wal.log`) at
+The `extras/` folder contains screenshots of the WAL log file (`toywal_demo.log`) at
 different stages of execution — after the first commit, after a checkpoint,
 after an abort, and so on. Useful if you want to see what the log actually
 looks like on disk without running the code.
@@ -126,7 +126,7 @@ looks like on disk without running the code.
 Every write goes through two steps, always in this order:
 
 ```
-1. Append log record to wal.log  →  fsync to disk
+1. Append log record to toywal_demo.log  →  fsync to disk
 2. Update the in-memory buffer
 ```
 
@@ -135,9 +135,9 @@ If the process dies between step 1 and step 2, the log record is on disk and rec
 ### What lives where
 
 ```
-RAM   →  self._buffer {}      the working database (fast, lost on crash)
-Disk  →  wal.log              log of all operations (survives crash)
-Disk  →  checkpoint.json      periodic snapshot of the buffer (survives crash)
+RAM   →  self._buffer {}              the working database (fast, lost on crash)
+Disk  →  toywal_demo.log              log of all operations (survives crash)
+Disk  →  checkpoint.json              periodic snapshot of the buffer (survives crash)
 ```
 
 ### WAL record format
