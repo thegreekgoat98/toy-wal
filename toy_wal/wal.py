@@ -26,7 +26,7 @@ class OpType(str, Enum):
 @dataclass
 class LogRecord:
     lsn: int                        # Log Sequence Number — monotonically increasing
-    txn_id: int                     # Which transaction this belongs to
+    txn_id: int                     # which transaction this belongs to
     op: OpType
     key: Optional[str] = None
     old_value: Optional[str] = None # For undo during recovery
@@ -92,7 +92,7 @@ class WAL:
             with open(self.log_path, "a") as f:
                 f.write(record.serialize())
                 f.flush()
-                os.fsync(f.fileno())   # <-- the key guarantee: log hits disk
+                os.fsync(f.fileno())   # this is the key guarantee: log hits disk
             return record.lsn
 
     def read_from(self, start_lsn: int = 0):

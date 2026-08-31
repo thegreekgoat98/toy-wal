@@ -1,5 +1,5 @@
 """
-toywal/transaction.py
+toy_wal/transaction.py
 
 Transaction: a unit of work. All changes go through here.
 The WAL is written BEFORE the buffer pool is touched.

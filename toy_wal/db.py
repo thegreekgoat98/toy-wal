@@ -1,5 +1,5 @@
 """
-toywal/db.py
+toy_wal/db.py
 
 The database engine. Owns the buffer pool, WAL, and checkpoint logic.
 On startup, it runs crash recovery before accepting any transactions.
@@ -36,9 +36,9 @@ class Database:
 
         self._recover()
 
-    # ------------------------------------------------------------------ #
-    # Public API                                                           #
-    # ------------------------------------------------------------------ #
+    # ------------------------------------------------------------------
+    # Public API
+    # ------------------------------------------------------------------
 
     def begin(self) -> Transaction:
         """Start a new transaction."""
@@ -74,9 +74,9 @@ class Database:
         """Show current in-memory state."""
         return dict(self._buffer)
 
-    # ------------------------------------------------------------------ #
-    # Recovery                                                             #
-    # ------------------------------------------------------------------ #
+    # ------------------------------------------------------------------
+    # Recovery
+    # ------------------------------------------------------------------
 
     def _recover(self):
         """
