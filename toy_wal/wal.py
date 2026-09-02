@@ -1,5 +1,5 @@
 """
-toywal/wal.py
+toy_wal/wal.py
 
 Write-Ahead Log implementation.
 Every change is recorded here BEFORE touching the data store.
